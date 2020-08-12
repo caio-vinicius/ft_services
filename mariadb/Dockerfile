@@ -7,6 +7,6 @@ RUN apk update && apk add mysql && \
     mkdir /run/mysqld && \
     mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 
-COPY wordpress.sql .
+COPY config.sql .
 
-ENTRYPOINT ["mysqld", "--user=root", "--skip_networking=0", "--init-file=/wordpress.sql"]
+ENTRYPOINT ["mysqld", "--user=root", "--skip_networking=0", "--init-file=/config.sql"]

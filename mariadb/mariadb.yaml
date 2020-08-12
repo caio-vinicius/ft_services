@@ -26,8 +26,9 @@ kind: Service
 metadata:
   name: mariadb
 spec:
-  selector:
-    app: mariadb
   ports:
   - port: 3306
     targetPort: http
+  selector:
+    app: mariadb
+  type: ClusterIP
