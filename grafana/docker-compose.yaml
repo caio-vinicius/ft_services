@@ -1,0 +1,17 @@
+version: "3"
+services:
+  influxdb:
+    image: influxdb:services
+    expose:
+        - "8086"
+  telegraf:
+    image: telegraf:services
+    depends_on:
+        - influxdb
+  grafana:
+    image: grafana:services
+    depends_on:
+        - influxdb
+        - telegraf
+    ports:
+        - "3000:3000"
