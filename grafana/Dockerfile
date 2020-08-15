@@ -1,5 +1,8 @@
 FROM alpine:3.12
 
+LABEL maintainer="Caio Vinicius <caio@42sp.org.br>" \
+      version="1.0.0"
+
 ADD grafana-7.1.3.linux-amd64.tar.gz .
 
 WORKDIR /grafana

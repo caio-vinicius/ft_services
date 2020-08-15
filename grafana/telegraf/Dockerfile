@@ -1,5 +1,8 @@
 FROM alpine:3.12
 
+LABEL maintainer="Caio Vinicius <caio@42sp.org.br>" \
+      version="1.0.0"
+
 ADD telegraf-1.15.2_linux_amd64.tar.gz /tmp
 WORKDIR /tmp/telegraf-1.15.2
 
