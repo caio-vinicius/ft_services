@@ -23,4 +23,6 @@ WORKDIR /etc/lighttpd
 COPY lighttpd.conf .
 COPY mod_fastcgi.conf .
 
+EXPOSE 5000
+
 ENTRYPOINT ["lighttpd","-D", "-f", "lighttpd.conf"]

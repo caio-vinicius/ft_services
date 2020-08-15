@@ -9,4 +9,6 @@ RUN apk update && apk add mysql && \
 
 COPY config.sql .
 
+EXPOSE 3306
+
 ENTRYPOINT ["mysqld", "--user=root", "--skip_networking=0", "--init-file=/config.sql"]
