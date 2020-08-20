@@ -1,5 +1,5 @@
 FROM alpine:3.12
-#change the version 3.6 to 3.12
+
 LABEL maintainer="Caio Vinicius <caio@42sp.org.br>" \
       version="1.0.0"
 
@@ -11,7 +11,8 @@ RUN apk update && apk add vsftpd && \
     chown $USER /home/$USER/ftp && chmod 757 /home/$USER/ftp
 
 COPY ftp.txt /home/$USER/ftp/ 
-COPY vsftpd.conf /etc/vsftpd/
+COPY ssl/server.crt /etc/ssl/
+COPY ssl/server.key /etc/ssl/
 
 EXPOSE 21
 
