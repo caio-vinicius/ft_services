@@ -13,7 +13,28 @@ spec:
       labels:
         app: telegraf
     spec:
+      serviceAccountName: telegraf
       containers:
       - name: telegraf
         image: telegraf:services
         imagePullPolicy: Never
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: telegraf
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: telegraf
+  namespace: default
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: telegraf
+  labels:
+    app: telegraf

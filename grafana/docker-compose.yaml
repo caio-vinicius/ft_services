@@ -4,14 +4,28 @@ services:
     image: influxdb:services
     expose:
         - "8086"
-  telegraf:
-    image: telegraf:services
+  prometheus:
+    image: prometheus:services
     depends_on:
         - influxdb
   grafana:
     image: grafana:services
     depends_on:
         - influxdb
-        - telegraf
+        - prometheus
     ports:
         - "3000:3000"
+  chronograf:
+    image: chronograf:services
+    environment:
+        - HOST=0.0.0.0
+        - PORT=8888
+        - INFLUXDB_URL=http://influxdb:8086
+        - INFLUXDB_USERNAME=admin
+        - INFLUXDB_PASSWORD=1234
+    depends_on:
+        - influxdb
+        - prometheus
+        - grafana
+    ports:
+        - "8888:8888"
