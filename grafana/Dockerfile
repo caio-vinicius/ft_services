@@ -3,18 +3,19 @@ FROM alpine:3.12
 LABEL maintainer="Caio Vinicius <caio@42sp.org.br>" \
       version="1.0.0"
 
-ADD grafana-7.1.3.linux-amd64.tar.gz .
+ENV PATH=/grafana-7.1.3/bin:$PATH
 
-WORKDIR /grafana
-ENV PATH=/grafana/bin:$PATH
-RUN apk update && apk add libc6-compat && \
+RUN apk update && apk add libc6-compat wget && \
+    wget --quiet https://dl.grafana.com/oss/release/grafana-7.1.3.linux-amd64.tar.gz && \
+    tar -xf grafana-7.1.3.linux-amd64.tar.gz && \
+    rm -rf grafana-7.1.3.linux-amd64.tar.gz && \
     mkdir -p /var/lib/grafana/dashboards
 
-COPY dashboard.json /var/lib/grafana/dashboards
-COPY influxdb.yaml conf/provisioning/datasources/
-COPY dashboard.yaml conf/provisioning/dashboards
+WORKDIR /grafana-7.1.3
 
-VOLUME /myvol
+COPY provisioning/dashboard.json /var/lib/grafana/dashboards/
+COPY provisioning/influxdb.yaml conf/provisioning/datasources/
+COPY provisioning/dashboard.yaml conf/provisioning/dashboards/
 
 EXPOSE 3000
 
