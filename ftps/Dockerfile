@@ -14,6 +14,6 @@ COPY ftp.txt /home/$USER/ftp/
 COPY ssl/server.crt /etc/ssl/
 COPY ssl/server.key /etc/ssl/
 
-EXPOSE 21
+EXPOSE 20 21 10000
 
 ENTRYPOINT ["vsftpd", "/etc/vsftpd/vsftpd.conf"]
