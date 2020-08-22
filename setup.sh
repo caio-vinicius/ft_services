@@ -6,9 +6,13 @@ message()
 }
 
 message "Starting minikube..."
-minikube start > /dev/null
+sudo usermod -aG docker $USER > /dev/null
+newgrp docker > /dev/null
+minikube start --vm-driver='docker' > /dev/null
 message "Install metallb...\e[K"
-minikube addons enable metallb > /dev/null
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml > /dev/null
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml > /dev/null
+kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" > /dev/null
 message "Setup metallb configuration...\e[K"
 kubectl apply -f metallb.yaml > /dev/null
 message "Linking minikube with local docker...\e[K"
