@@ -1,2 +1,3 @@
 # ft_services
-Kubernates
+
+Kubernetes
