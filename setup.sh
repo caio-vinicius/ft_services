@@ -1,36 +1,37 @@
 #!/bin/bash
 
-color_message()
+progress_bar()
 {
-	echo -e "\033[$1m - $2\033[0m"
+    echo -ne "($2) $1\r"
 }
 
-color_message 1 "Starting minikube..."
-minikube start
-color_message 1 "Activating metallb..."
-minikube addons enable metallb
-color_message 1 "Linking minikube docker..."
+progress_bar ' ' '0%'
+minikube start > /dev/null
+progress_bar '#' '12%'
+minikube addons enable metallb > /dev/null
+progress_bar '##' '16%'
 eval $(minikube docker-env)
-color_message 1 "Configuring metalLB..."
-kubectl apply -f configmap_metallb.yaml
-color_message 1 "Install nginx..."
+progress_bar '###' '20%'
+kubectl apply -f configmap_metallb.yaml > /dev/null
+progress_bar '#####' '24%'
 cd nginx && \
-    docker build -t nginx:services . && kubectl apply -f nginx.yaml && cd ..
-color_message 1 "Install ftps..."
-cd ftp && \
-    docker build -t ftp:services . && kubectl apply -f ftp.yaml && cd ..
-color_message 1 "Install wordpress and mariadb..."
+    docker build -t nginx:services . > /dev/null && kubectl apply -f nginx.yaml > /dev/null && cd ..
+progress_bar '#######' '30%'
+cd ftps && \
+    docker build -t ftp:services . > /dev/null && kubectl apply -f ftp.yaml > /dev/null && cd ..
+progress_bar '#########' '37%'
 cd wordpress && \
-    docker build -t wordpress:services . && kubectl apply -f wordpress.yaml && \
-    cd mariadb && docker build -t mariadb:services . && kubectl apply -f mariadb.yaml && \
+    docker build -t wordpress:services . > /dev/null && kubectl apply -f wordpress.yaml > /dev/null && \
+    cd mariadb && docker build -t mariadb:services . > /dev/null && kubectl apply -f mariadb.yaml > /dev/null && \
     cd .. && cd ..
-color_message 1 "Install phpmyadmin..."
-cd phpmyadmin && docker build -t phpmyadmin:services . && kubectl apply -f phpmyadmin.yaml && \
+progress_bar '############' '60%'
+cd phpmyadmin && docker build -t phpmyadmin:services . > /dev/null && kubectl apply -f phpmyadmin.yaml > /dev/null && \
     cd ..
-color_message 1 "Install grafana, influxdb and telegraf..."
-cd grafana && docker build -t grafana:services . && kubectl apply -f grafana.yaml && \
-    cd influxdb && docker build -t influxdb:services . && kubectl apply -f influxdb.yaml && \
-    cd .. && cd telegraf && docker build -t telegraf:services . && kubectl apply -f telegraf.yaml && \
+progress_bar '################' '82%'
+cd grafana && docker build -t grafana:services . > /dev/null && kubectl apply -f grafana.yaml > /dev/null && \
+    cd influxdb && docker build -t influxdb:services . > /dev/null && kubectl apply -f influxdb.yaml > /dev/null && \
+    cd .. && cd telegraf && docker build -t telegraf:services . > /dev/null && \
+    bash minikube_ip.sh && kubectl apply -f telegraf.yaml > /dev/null && \
     cd .. && cd ..
-color_message 1 "Opening minikube dashboard..."
+progress_bar '####################' '100%'
 minikube dashboard &
