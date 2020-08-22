@@ -17,7 +17,7 @@ data:
       password = "1234"
 
     [[inputs.kubernetes]]
-      url = "https://172.17.0.2:10250"
+      url = ""
       bearer_token = "/var/run/secrets/kubernetes.io/serviceaccount/token"
       insecure_skip_verify = true
 ---
