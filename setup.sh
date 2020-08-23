@@ -5,6 +5,7 @@ message()
     echo -ne "$1\r"
 }
 
+cd srcs
 message "Starting minikube..."
 sudo usermod -aG docker $USER > /dev/null
 newgrp docker > /dev/null
@@ -43,4 +44,5 @@ kubectl apply -f phpmyadmin/phpmyadmin.yaml > /dev/null && \
     kubectl apply -f grafana/telegraf/telegraf.yaml > /dev/null
 
 message "Opening Kubernetes dashboard...\e[K"
+cd ..
 minikube dashboard &
