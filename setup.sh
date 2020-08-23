@@ -7,8 +7,6 @@ message()
 
 cd srcs
 message "Starting minikube..."
-sudo usermod -aG docker $USER > /dev/null
-newgrp docker > /dev/null
 minikube start --vm-driver='docker' > /dev/null
 message "Install metallb...\e[K"
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml > /dev/null

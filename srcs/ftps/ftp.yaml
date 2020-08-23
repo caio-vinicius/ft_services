@@ -5,8 +5,8 @@ metadata:
 data:
   vsftpd.conf: |
     ftpd_banner=Welcome to Caio FTP server.
-    anonymous_enable=NO
-    local_enable=NO
+    anonymous_enable=YES
+    local_enable=YES
     write_enable=YES
     local_umask=022
     dirmessage_enable=YES
@@ -68,8 +68,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    metallb.universe.tf/allow-shared-ip: shared
   name: ftp
 spec:
   ports:
